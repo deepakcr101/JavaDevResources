@@ -34,3 +34,27 @@ Method Signature of the above function:
  max(int x, int y) Number of parameters is 2, Type of parameter is int.
 
 NAMING A METHOD: camelCase 
+
+
+STATIC vs Instance Methods
+ - STATIC 
+   -- A static method belongs to the class rather than any specific object.
+   -- Can be called without creating an instance of the class.
+   -- Since static methods are not object-specific, they can access only static members (data and methods), and cannot access non-static members.
+  
+  - Instance Methods:
+   -- An Instance method belongs to an object.
+
+        -- Need to create an instance of the class to call.
+        -- Can access instance variables, other instance methods, and static members of the class.
+        -- Have access to this reference, which points to the current object.
+
+ACCESS MODIFIERS
+ - Private Access Modifier
+    -- The private access modifier is specified using the keyword private. The methods or data members declared as private are accessible only within the class in which they are declared.
+ - Default Access Modifier
+    -- When no access modifier is specified for a class, method, or data member, it is said to have the default access modifier by default. This means only classes within the same package can access it.
+ - Protected Access Modifier
+    -- The protected access modifier is specified using the keyword protected. The methods or data members declared as protected are accessible within the same package or subclasses in different packages.
+ - Public Access Modifier
+    -- The public access modifier is specified using the keyword public. Public members are accessible from everywhere in the program. There is no restriction on the scope of public data members.
