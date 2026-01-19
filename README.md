@@ -126,7 +126,7 @@ If you find code optimizations or note corrections, feel free to:
 
 ## 📜 License
 
-This repository is created for Learningand sharing Codes — feel free to use the examples for learning.
+This repository is created for Learning and sharing Codes — feel free to use the examples for learning.
 
 ---
 
