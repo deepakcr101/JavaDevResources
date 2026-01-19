@@ -1,0 +1,36 @@
+Different Ways to Create Java Method
+There are two ways to create a method in Java:
+
+1. Instance Method: Access the instance data using the object name. Declared inside a class.
+
+Example:
+
+
+// Instance Method
+void method_name() {
+    // instance method body
+}
+2. Static Method: Access the static data using class name. Declared inside class with static keyword.
+
+Example:
+
+
+// Static Method
+static void method_name() {
+    // static method body
+}
+
+
+Method Signature
+It consists of the method name and a parameter list.
+
+Number of parameters
+Type of the parameters
+Order of the parameters
+Note: The return type and exceptions are not considered as part of it.
+
+Method Signature of the above function:
+
+ max(int x, int y) Number of parameters is 2, Type of parameter is int.
+
+NAMING A METHOD: camelCase 
