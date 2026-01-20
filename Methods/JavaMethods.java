@@ -5,12 +5,14 @@ package Methods;
 /*
  Parts of a function declaration:
   access modifiers: private,protected,default,public
-  return typr
+  return type
   name of function camelCase
   () arguments inside parentheses
    return (optional if void return type)
    body
 */
+
+//Abstract methods have no body and must be overridden in a subclas
 
 class Test {
     static void hello() {
@@ -52,6 +54,12 @@ public class JavaMethods {
         System.out.println(obj.hashCode());
 
         Test.hello(); // Call static method directly
+
+        // Predefined Methods
+        System.out.println(Math.random());
+        System.out.println(Math.random() * 10);
+        System.out.println(Math.PI);
+
     }
 
 }
