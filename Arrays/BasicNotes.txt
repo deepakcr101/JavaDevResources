@@ -1,0 +1,24 @@
+Linear Data Structures
+Used to store multiple values of the same type values stored at contigous memory loactions
+
+Key features of Arrays
+Store Primitives and Objects: Java arrays can hold both primitive types (like int, char, boolean, etc.) and objects (like String, Integer, etc.)
+Contiguous Memory Allocation When we use arrays of primitive types, the elements are stored in contiguous locations. For non primitive types, references of items are stored at contiguous locations.
+Zero-based Indexing: The first element of the array is at index 0.
+Fixed Length: After creating an array, its size is fixed; we can not change it.
+
+
+JVM throws ArrayIndexOutOfBoundsException to indicate that the array has been accessed with an illegal index. The index is either negative or greater than or equal to the size of an array.
+
+
+Advantages of Java Arrays
+Efficient Access: Accessing an element by its index is fast and has constant time complexity, O(1).
+Memory Management: Arrays have fixed size, which makes memory management straightforward and predictable.
+Data Organization: Arrays help organize data in a structured manner, making it easier to manage related elements.
+Disadvantages of Java Arrays
+Fixed Size: Once an array is created, its size cannot be changed, which can lead to memory waste if the size is overestimated or insufficient storage if underestimated.
+Type Homogeneity: Arrays can only store elements of the same data type, which may require additional handling for mixed types of data.
+Insertion and Deletion: Inserting or deleting elements, especially in the middle of an array, can be costly as it may require shifting elements.
+
+
+The array memory is allocated when you use the new keyword or assign values
