@@ -22,3 +22,24 @@ Insertion and Deletion: Inserting or deleting elements, especially in the middle
 
 
 The array memory is allocated when you use the new keyword or assign values
+
+
+
+# Jagged Arrays
+
+ Jagged array is a multidimensional array where each row can have a different number of columns. When we work with a jagged array, one thing to keep in mind is that the inner array can be of different lengths
+
+
+ # Arrays Class
+ - Arrays.asList(intArr)  converts an array into a list.
+ - Arrays.binarySearch(intArr, intKey)  For Binary binarySearch
+ -  Arrays.binarySearch(array, fromIndex, toIndex, key, Comparator) specific parts of an ArrayIndexOutOfBoundsException
+ - Arrays.compare(intArr, intArr1)     Lexicographic comparison
+ -  fill(originalArray, fillValue)	Assigns this fill value to each index of this arrays.
+ - mismatch(array1, array2) 	Finds and returns the index of the first unmatched element between the two specified arrays.
+ - stream(originalArray) 	Returns a sequential stream with the specified array as its source.
+
+
+ # Final Arrays in Java
+ -  the final keyword makes a variable's reference constant, not its contents. When an array is declared as final, you cannot reassign it to point to a new array. However, you can still modify the elements within the array.
+
