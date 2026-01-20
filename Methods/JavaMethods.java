@@ -19,31 +19,32 @@ class Test {
 }
 
 public class JavaMethods {
-    //Breaking code into separate methods helps improve readability, reusability, and maintainability
+    // Breaking code into separate methods helps improve readability, reusability,
+    // and maintainability
 
     public static void D() {
         float d = 40.5f;
-        System.out.println("In Method D "+d+" ");
+        System.out.println("In Method D " + d + " ");
     }
 
     public static void C() {
         double c = 30.5;
-        System.out.println("In Method C "+c+" ");
+        System.out.println("In Method C " + c + " ");
     }
 
     public static void B() {
         int b = 20;
         C(); // Calling C
-        System.out.println("In Method B "+b+" ");
+        System.out.println("In Method B " + b + " ");
     }
 
     public static void A() {
         int a = 10;
         B(); // Calling B
-        System.out.println("In Method A "+a+" ");
+        System.out.println("In Method A " + a + " ");
     }
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         A(); // Start with function A
         D(); // Then call D
 
@@ -53,11 +54,12 @@ public class JavaMethods {
         Test.hello(); // Call static method directly
     }
 
-
 }
 
-//Java is an object-oriented and stack-based programming language
+// Java is an object-oriented and stack-based programming language
 
-//CALL stack
-//The call stack is a data structure used by the program during runtime to manage method calls and local variables. It operates in a Last-In-First-Out (LIFO) manner, meaning the last method called is the first one to complete and exit.
-
+// CALL stack
+// The call stack is a data structure used by the program during runtime to
+// manage method calls and local variables. It operates in a Last-In-First-Out
+// (LIFO) manner, meaning the last method called is the first one to complete
+// and exit.
