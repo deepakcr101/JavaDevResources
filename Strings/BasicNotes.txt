@@ -1,0 +1,22 @@
+ String is the type of object that can store a sequence of characters enclosed by double quotes and every character is stored in 16 bits, i.e., using UTF 16-bit encoding
+
+ A string acts the same as an array of characters.
+
+ To make Java more memory efficient (because no new objects are created if it exists already in the string constant pool).
+
+ if we use new keyword - In such a case, JVM will create a new string object in normal (non-pool) heap memory and the literal "Welcome" will be placed in the string constant pool. The variable s will refer to the object in the heap (non-pool)
+
+ # Storage of Strings
+ - String literal
+    Whenever a String Object is created as a literal, the object will be created in the String constant pool. This allows JVM to optimize the initialization of String literal. The string constant pool is present in the heap.
+ - The string can also be declared using a new operator i.e. dynamically allocated. In case of String are dynamically allocated they are assigned a new memory location in the heap . This string will not be added to the String constant pool.
+ - By the use of the 'new' keyword, The JVM will create a new string object in the normal heap area even if the same string object is present in the string pool. 
+
+ #Benefits of Immutability:
+ - Strings are stored in a String Pool, allowing reuse of objects and reducing memory overhead.
+ - Multiple threads can safely share the same string object without synchronization.
+ - Immutable strings have a consistent hash code, making them reliable for use in collections like HashMap.
+
+
+String is a predefined final class in Java present in java.lang package. It provides various methods to create, manipulate, and compare strings, like length(), charAt(), concat(), equals(), etc.
+
