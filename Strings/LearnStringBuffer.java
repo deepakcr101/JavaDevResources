@@ -60,7 +60,7 @@ public class LearnStringBuffer {
 
         // Getting the capacity of the string
         System.out.println("Length of stringbuffer = " + p);
-
+        
     }
 }
 

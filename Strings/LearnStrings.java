@@ -117,6 +117,8 @@ public class LearnStrings {
         byte[] byteArray = { 72, 101, 108, 108, 111 };
         String str3 = new String(byteArray);
         System.out.println("String from byte array: " + str3);
+
+        sc.close();
     }
 }
 

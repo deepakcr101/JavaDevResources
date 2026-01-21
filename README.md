@@ -18,7 +18,8 @@ Java-Learning-Journey/
 ├── basics-java/    # Core fundamentals of Java (variables, data types, operators, control flow), Guess the Number Game
 ├── methods/        # Defining and using methods, return types, method overloading
 ├── arrays/         # Array usage, looping through arrays, multidimensional arrays, Tic Tac Toe Game
-├── strings/        # String operations, methods, and best practices
+├── strings/        # String operations, methods, StringBuffer, StringBuilder and best practices
+├── oops/           # Basic OOP concepts,encapsulation,inheritance,abstraction,polymorphism,constructors,packages etc.
 └── README.md       # You are here :)
 
 
