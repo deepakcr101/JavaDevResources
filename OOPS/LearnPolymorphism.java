@@ -40,3 +40,10 @@ public class LearnPolymorphism {
         polymorphicObj.func(30);
     }
 }
+
+// Runtime Polymorphism in Java is also known as dynamic method dispatch
+// It occurs when a method call is resolved at runtime, and it is achieved using
+// method overriding.
+
+// At runtime, the method that gets executed depends on the actual object type,
+// not the reference type.

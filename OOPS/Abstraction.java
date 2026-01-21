@@ -1,36 +1,125 @@
 package OOPS;
 
-abstract class Vehicle {
-    // Abstract methods (what it can do)-> WITH NO IMPLEMENTATION
-    abstract void accelerate();
-    abstract void brake();
-    
-    // Concrete method (common to all vehicles)
-    void startEngine() {
-        System.out.println("Engine started!");
+abstract class Shape {
+    String color;
+
+    // these are abstract methods
+    abstract double area();
+
+    public abstract String toString();
+
+    // abstract class can have the constructor
+    public Shape(String color) {
+
+        System.out.println("Shape constructor called");
+        this.color = color;
+    }
+
+    // this is a concrete method
+    public String getColor() {
+
+        return color;
+
     }
 }
 
-// Concrete implementation (hidden details)
-class Car extends Vehicle {
-    @Override
-    void accelerate() {
-        System.out.println("Car: Pressing gas pedal...");
-        // Hidden complex logic: fuel injection, gear shifting, etc.
+class Circle extends Shape {
+
+    double radius;
+
+    public Circle(String color, double radius) {
+
+        // calling Shape constructor
+        super(color);
+        System.out.println("Circle constructor called");
+        this.radius = radius;
     }
-    
+
     @Override
-    void brake() {
-        System.out.println("Car: Applying brakes...");
-        // Hidden logic: hydraulic pressure, brake pads, etc.
+    double area() {
+
+        return Math.PI * Math.pow(radius, 2);
     }
+
+    @Override
+    public String toString() {
+
+        return "Circle color is " + super.getColor()
+                + "and area is : " + area();
+    }
+}
+
+class Rectangle extends Shape {
+
+    double length;
+    double width;
+
+    public Rectangle(String color, double length,
+            double width) {
+        // calling Shape constructor
+        super(color);
+        System.out.println("Rectangle constructor called");
+        this.length = length;
+        this.width = width;
+    }
+
+    @Override
+    double area() {
+        return length * width;
+    }
+
+    @Override
+    public String toString() {
+        return "Rectangle color is " + super.getColor()
+                + "and area is : " + area();
+    }
+}
+
+// INTERFACE
+interface Herbivorous {
+
+    void EatVeg();
+}
+
+interface Carnivorous {
+    void EatMeat();
+}
+
+class Omnivorous implements Herbivorous, Carnivorous {
+    int id;
+    String name;
+
+    public Omnivorous(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public void EatVeg(){
+        System.out.print("Eat Veggies as well as ");
+    }
+
+    @Override
+    public void EatMeat() {
+        System.out.println("they Eat Meat");
+    }
+
+    public void Eat() {
+        EatVeg();
+        EatMeat();
+    }
+
 }
 
 public class Abstraction {
     public static void main(String[] args) {
-        Vehicle myCar = new Car();
-        myCar.startEngine();  
-        myCar.accelerate();   
-        myCar.brake();        
+        Shape s1 = new Circle("Red", 2.2);
+        Shape s2 = new Rectangle("Yellow", 2, 4);
+
+        System.out.println(s1.toString());
+        System.out.println(s2.toString());
+
+        Omnivorous omn=new Omnivorous(1, "Dog");
+        omn.Eat();
     }
 }
