@@ -30,7 +30,6 @@ try to catch.             | (Unchecked)       |   | (Checked)          |
 ## The Five Keywords of Exception Handling
 
 
-
 **try:** The block of code to be monitored for exceptions.
 
 **catch:** The block of code that gets executed if an exception of a specific type occurs in the try block.

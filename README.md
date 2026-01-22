@@ -20,6 +20,7 @@ Java-Learning-Journey/
 ├── arrays/         # Array usage, looping through arrays, multidimensional arrays, Tic Tac Toe Game
 ├── strings/        # String operations, methods, StringBuffer, StringBuilder and best practices
 ├── oops/           # Basic OOP concepts,encapsulation,inheritance,abstraction,polymorphism,constructors,packages,interfaces etc.
+├── exceptionHandling #ExceptionHandling,throw and throws,finally,custom exceptions,showcasing different types of exceptions etc.
 └── README.md       # You are here :)
 
 
