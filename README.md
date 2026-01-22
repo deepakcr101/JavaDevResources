@@ -19,7 +19,7 @@ Java-Learning-Journey/
 ├── methods/        # Defining and using methods, return types, method overloading
 ├── arrays/         # Array usage, looping through arrays, multidimensional arrays, Tic Tac Toe Game
 ├── strings/        # String operations, methods, StringBuffer, StringBuilder and best practices
-├── oops/           # Basic OOP concepts,encapsulation,inheritance,abstraction,polymorphism,constructors,packages etc.
+├── oops/           # Basic OOP concepts,encapsulation,inheritance,abstraction,polymorphism,constructors,packages,interfaces etc.
 └── README.md       # You are here :)
 
 

@@ -194,3 +194,11 @@ public class LearnInterface {
 // To implement an interface, use the implements keyword.
 // static methods are called directly using the interface name and are not
 // inherited by implementing classes.
+
+// # NESTED INTERFACE
+// Inside a class, it can be public, protected, default, or private.
+// Inside another interface, it is implicitly public and static.
+// A top-level interface can only be public or default (package-private).
+// Interface cannot have non-public member interface
+
+//SERIALIZABLE INTERFACE used to make an object eligible for saving its state into a filE.
