@@ -40,3 +40,26 @@ try to catch.             | (Unchecked)       |   | (Checked)          |
 **throw**: Used to manually throw an exception object.
 
 **throws**: Used in a method's signature to declare the types of checked exceptions it might throw to its caller.
+
+## Java Custom Exception
+* A custom exception in Java is an exception defined by the user to handle specific application requirements. These exceptions extend either the Exception class (for checked exceptions) or the RuntimeException class (for unchecked exceptions).
+
+## Types of Custom Exceptions
+There are two types of custom exceptions in Java.
+
+* Checked Exceptions: It extends the Exception class. and it must be declared in the throws clause of the method signature.
+* Unchecked Exceptions: It extends the RuntimeException class.
+
+## How to Create a User-Defined Custom Exception
+* Create a class extending Exception or RuntimeException
+* Provide constructors with custom messages
+* (Optional) Add extra fields or methods
+
+## Method Overriding Notes
+* A subclass cannot introduce a new checked exception if the superclass method does not declare any.
+*  ArithmeticException is unchecked, so compiler allows it.
+---
+1. Case 1: The subclass cannot declare an exception unrelated to the superclass exception.
+2. Case 2: The subclass can declare a child exception of the superclass exception.
+3. Case 3: The subclass can choose to declare no exception.
+ 
