@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
+//Not Synchronized: By default, LinkedList is not thread-safe. To make Thread-safe use of Collections.synchronizedList().
+
 class Person {
     private String name;
     private int age;
@@ -29,8 +31,53 @@ class Person {
     }
 }
 
+// LinkedList nodes cannot be accessed directly by index; elements must be
+// accessed by traversing from the head.
+
 public class LearnLinkedList {
     public static void main(String[] args) {
+
+        LinkedList<String> ll = new LinkedList<>();
+
+        ll.add("Deepak");
+        ll.add("Fun");
+        ll.add(1, "Fun");
+
+        System.out.println("Initial LinkedList " + ll);
+
+        ll.set(1, "For");
+
+        System.out.println("Updated LinkedList " + ll);
+
+        System.out.println("Initial LinkedList " + ll);
+
+        // Function call
+        ll.remove(1);
+
+        System.out.println("After the Index Removal " + ll);
+
+        ll.remove("Fun");
+
+        System.out.println("After the Object Removal "
+                + ll);
+
+        ll.add("Rahul");
+        ll.add("Priyam");
+        ll.add("Bikky");
+        // Using the Get method and the for loop
+        for (int i = 0; i < ll.size(); i++) {
+
+            System.out.print(ll.get(i) + " ");
+        }
+
+        System.out.println();
+
+        // Using the for each loop
+        for (String str : ll)
+            System.out.print(str + " ");
+
+        System.out.println();
+
         // Step 1: Create a LinkedList of integers
         LinkedList<Integer> numbers = new LinkedList<>();
 
