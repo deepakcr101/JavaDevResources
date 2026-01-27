@@ -5,10 +5,6 @@ import java.io.*;
 import java.util.*;
 
 
-
-
-
-
 public class LearnMainThread {
     final static int MAX_PRIORITY=10;
     final static int MIN_PRIORITY=1;
