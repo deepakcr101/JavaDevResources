@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 interface Add{
     int addition(int a,int b);
-}
+} 
 
 @FunctionalInterface
 interface FuncInterface{
@@ -83,7 +83,11 @@ public class LearnLambdas {
         });
         //The forEach() method internally uses the Consumer<T> functional interface, which takes one argument and performs an action.
 
-
+        // Sorting a list of strings by length 
+       List<String> names = Arrays.asList("Ciena", "BluePlanet", "WaveLogic"); 
+        Collections.sort(names, (String a, String b) -> a.length() - b.length()); 
+// Even more concise (type inference) 
+Collections.sort(names, (a, b) -> a.length() - b.length()); 
         // Using lambda expressions to define the operations
         Functional add1 = (a, b) -> a + b;
         Functional multiply = (a, b) -> a * b;
