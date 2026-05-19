@@ -922,3 +922,314 @@ if (deadlockedThreads != null) {
 - Step 3: Use `ThreadMXBean` to detect the deadlock.
 
 ---
+# **Multithreaded Debugging Deep Dive**
+
+Debugging multithreaded code is different from debugging sequential code because:
+- Multiple threads can execute concurrently
+- Bugs may appear **intermittent** or **non-reproducible**
+- Race conditions can create **heisenbugs** (disappear when debugged!)
+
+---
+
+## **1. Understanding Thread Dumps**
+
+A **thread dump** is a snapshot of all threads in the JVM and their states at a given moment.  
+Generated using:
+```bash
+# On Linux/Mac
+kill -3 <pid> 
+
+# On Windows
+CTRL + Break in console window running JVM
+
+# Or with jcmd
+jcmd <pid> Thread.print
+
+# Or from code
+Thread.getAllStackTraces()
+```
+
+---
+
+### **Key Thread States in a Thread Dump**
+| State                | Meaning                                                                 |
+|----------------------|-------------------------------------------------------------------------|
+| **RUNNABLE**         | Thread executing in CPU or waiting in OS queue                         |
+| **BLOCKED**          | Waiting for a monitor lock                                              |
+| **WAITING**          | Waiting indefinitely for another thread to notify                      |
+| **TIMED_WAITING**    | Waiting with a timeout (e.g., `sleep`, join with timeout, `wait(timeout)`) |
+| **TERMINATED**       | Thread has finished execution                                           |
+
+---
+
+### **Sample Deadlock in a Thread Dump**
+```text
+Found one Java-level deadlock:
+=============================
+"Thread-1":
+  waiting to lock monitor 0x000000001c, object <LOCK2>, 
+  which is held by "Thread-2"
+"Thread-2":
+  waiting to lock monitor 0x000000001a, object <LOCK1>,
+  which is held by "Thread-1"
+```
+
+**Interpretation**:
+- **Thread-1** holds `LOCK1` but wants `LOCK2`
+- **Thread-2** holds `LOCK2` but wants `LOCK1`
+- Circular dependency → deadlock
+
+---
+
+## **2. Detecting Deadlocks Programmatically**
+We can detect deadlocked threads inside the JVM using `ThreadMXBean`:
+
+```java
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
+
+public class DeadlockDetector {
+    public static void main(String[] args) {
+        ThreadMXBean bean = ManagementFactory.getThreadMXBean();
+        long[] threadIds = bean.findDeadlockedThreads();
+        if (threadIds != null) {
+            ThreadInfo[] infos = bean.getThreadInfo(threadIds);
+            for (ThreadInfo info : infos) {
+                System.out.println("Deadlock detected: " + info.getThreadName());
+            }
+        } else {
+            System.out.println("No deadlocks detected.");
+        }
+    }
+}
+```
+
+---
+
+## **3. Analyzing Contention**
+**Symptoms of contention**:
+- Threads stuck in `BLOCKED` state
+- High CPU idle time but high thread count
+- Threads frequently switching states
+
+**Thread dump clue**:  
+You’ll see many threads **WAITING to acquire the same monitor** — usually a sign that synchronization is too coarse-grained.
+
+---
+
+## **4. Tools for Multithreaded Debugging**
+### **IDE Debuggers**
+- IntelliJ IDEA / Eclipse let you **freeze a thread**, inspect variables, and step through code.
+
+### **JConsole** (comes with JDK)
+- Real-time CPU, memory, and thread monitoring
+- Can trigger a thread dump from UI
+
+### **VisualVM**
+- Visualizes thread activity & deadlocks  
+- Profiling memory and CPU
+
+### **Java Mission Control & Flight Recorder**
+- Low-overhead profiling for production systems  
+- Allows analyzing exact thread contention percentages  
+- Perfect for finding hotspots in concurrency
+
+---
+
+## **5. Strategy for Debugging Concurrency Issues**
+1. **Reproduce under load** — often concurrency issues need high load to appear.
+2. **Take multiple thread dumps** over intervals — deadlocks show up consistently in multiple dumps.
+3. **Look for patterns** — if the same methods appear in waiting stacks, focus there.
+4. **Reduce complexity** — temporarily simplify thread logic to isolate the issue.
+5. **Log + Thread IDs** — always log with `Thread.currentThread().getName()` for tracing execution flow.
+
+---
+
+## **6. Example: Adding Thread Names**
+```java
+ExecutorService executor = Executors.newFixedThreadPool(3, r -> {
+    Thread t = new Thread(r);
+    t.setName("Worker-" + t.getId());
+    return t;
+});
+```
+You’ll see **Worker-1**, **Worker-2** in logs — much easier to trace.
+
+---
+
+## **7. Practice Debugging Scenario**
+**Goal:**  
+- Create a program that has an intentional deadlock (using 2 locks and 2 threads).
+- Run it and generate a thread dump using `jcmd` or `jconsole`.
+- Locate the deadlock in the dump and interpret it.
+- Resolve the deadlock using **lock ordering** or `ReentrantLock.tryLock()`.
+
+---
+# **Java Concurrency – Performance Tuning & Best Practices**  
+*(Final Step Before You’re “Production Ready”)*  
+
+Now that you understand **thread creation**, **executors**, **async flows**, **synchronization**, **deadlocks**, and **debugging**, we need to focus on **making concurrent systems fast, efficient, and safe under real workloads**.  
+
+---
+
+## **1. Thread Pool Sizing**
+The number of threads in a pool has **direct impact** on throughput and CPU utilization.
+
+### **General Formula**
+For **CPU-bound tasks**:
+```text
+Optimal threads ≈ Number of CPU cores + 1
+```
+
+For **I/O-bound tasks**:
+```text
+Optimal threads ≈ Number of CPU cores * (1 + WaitTime / ComputeTime)
+```
+(Essentially: more threads to compensate for blocking on I/O)
+
+**Example:**
+- If a task spends 80% waiting (I/O) and 20% computing:
+```java
+cores = Runtime.getRuntime().availableProcessors();
+threads = cores * (1 + 0.8/0.2) = cores * 5
+```
+
+---
+
+## **2. Avoid Oversubscription**
+- **Too many threads** → Context switching overhead & cache thrashing.
+- **Too few threads** → CPU underutilization.
+
+Use `Runtime.getRuntime().availableProcessors()` to adapt to environment.
+
+---
+
+## **3. Reduce Contention**
+**Problem**: Multiple threads fight over the same lock/resource.
+
+### **Solutions:**
+1. **Minimize lock scope**:
+```java
+synchronized(this) {
+    // Only what must be locked
+}
+```
+2. **Use concurrent data structures**:  
+   - `ConcurrentHashMap` instead of `HashMap`  
+   - `ConcurrentLinkedQueue` instead of `LinkedList`
+3. **Reduce shared mutable state** → more thread-local storage, immutable objects.
+
+---
+
+## **4. Avoid Blocking in Parallel Code**
+In `ForkJoinPool` or `.parallelStream()`:
+- Avoid `Thread.sleep()`, database calls, or heavy I/O inside parallel sections.
+- Use non-blocking I/O or async processing if possible.
+
+---
+
+## **5. Avoid False Sharing**
+**False sharing**: Multiple threads update variables that live in the **same CPU cache line**, leading to unnecessary cache invalidation.
+
+### **Example**:
+```java
+// Bad: Threads updating these will share cache lines
+volatile long counter1;
+volatile long counter2;
+```
+
+**Solution**: Use `@Contended` (Java 8+) or pad variables to occupy different cache lines.
+
+---
+
+## **6. Limit Synchronization in Hot Paths**
+If a frequently executed method is heavily synchronized, it becomes a bottleneck.
+
+**Better**: Use lock-free or optimistic concurrency techniques:  
+- `AtomicInteger`, `AtomicLong` for counters  
+- `StampedLock` for read-mostly data
+
+---
+
+## **7. Thread Affinity & Priority**
+- Thread priority tuning rarely helps performance — scheduler differences make it unreliable.
+- Avoid starvation by not keeping many high-priority threads.
+
+---
+
+## **8. Use Batching**
+Processing in batches reduces synchronization cost:
+```java
+List<Task> batch = queue.poll(10, TimeUnit.MILLISECONDS);
+processBatch(batch);
+```
+
+---
+
+## **9. Monitor Thread Pools in Production**
+Even the best-designed concurrent systems degrade over time if queues build up.
+
+### Metrics to Track:
+- Active thread count
+- Task queue size
+- Task wait time
+- Rejected task count
+
+**With ThreadPoolExecutor:**
+```java
+ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newFixedThreadPool(8);
+System.out.println("Active Threads: " + exec.getActiveCount());
+System.out.println("Queue Size: " + exec.getQueue().size());
+```
+
+---
+
+## **10. Use the Right Tool**
+- **Independent tasks** → FixedThreadPool  
+- **Short-lived bursts** → CachedThreadPool  
+- **Recursive computation** → ForkJoinPool  
+- **Data processing** → Parallel Streams (when thread-safety is OK)  
+- **Scheduling** → ScheduledThreadPool (`Executors.newScheduledThreadPool()`)
+
+---
+
+## **11. Graceful Shutdown**
+Always shutdown executors to free resources:
+```java
+executor.shutdown();
+if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+    executor.shutdownNow();
+}
+```
+
+---
+
+## **12. Test Under Load**
+Concurrency issues often appear **only under stress**:
+- Use load testing frameworks (Gatling, JMeter).
+- Simulate workloads matching production patterns.
+
+---
+
+## **13. Checklist for Production-Ready Concurrency**
+✅ Correct thread pool sizing based on workload  
+✅ No obvious deadlocks in testing  
+✅ Minimized lock contention and hot-spot synchronization  
+✅ Thread names set for logging and debugging  
+✅ Proper shutdown hooks registered  
+✅ Monitoring + alerting for backlog growth  
+✅ Tested at >100% expected load  
+
+---
+
+### **Performance Tuning Exercise**
+1. Build a simulation of a web server handling 100,000 requests:
+    - Version A: Creates a new thread per request  
+    - Version B: Uses a fixed thread pool  
+2. Measure:
+    - Response time under load  
+    - CPU usage & memory  
+3. Tune the thread pool until optimal throughput is achieved.
+
+---
